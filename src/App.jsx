@@ -31,9 +31,15 @@ function Box({ z }) {
   )
 }
 
-function Banana(props) {
-  const {scene} = useGLTF('/public/banana-v1-transformed.glb');
-  return <primitive  object={scene} {...props} />
+function Banana({...props}) {
+  const { nodes, materials } = useGLTF('/public/banana-v1-transformed.glb')
+  return (
+    <group {...props} dispose={null}>
+      <mesh geometry={nodes.banana_high.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
+      <mesh geometry={nodes.banana_mid.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
+      <mesh geometry={nodes.banana_low.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
+    </group>
+  )
 }
 
 export default function App({count = 100}) {
