@@ -1,57 +1,59 @@
-import * as THREE from 'three'
-import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber'
-import { useRef, useState, Suspense } from 'react'
-import { useGLTF, Environment } from '@react-three/drei';
+import * as THREE from "three";
+import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
+import { useRef, useState, Suspense } from "react";
+import { useGLTF, Environment } from "@react-three/drei";
+import { EffectComposer, DepthOfField} from "@react-three/postprocessing";
 
-
-function Box({ z }) {
-
+function Banana({ z }) {
   const ref = useRef();
-  const {viewport, camera} = useThree()
-  const {width, height} = viewport.getCurrentViewport(camera, [0, 0, z])
 
+  const { nodes, materials } = useGLTF("/public/banana-v1-transformed.glb");
+
+  const { viewport, camera } = useThree();
+  const { width, height } = viewport.getCurrentViewport(camera, [0, 0, z]);
 
   const [data] = useState({
     x: THREE.MathUtils.randFloatSpread(2),
     y: THREE.MathUtils.randFloatSpread(height),
-  })
+    rX: Math.random() * Math.PI,
+    rY: Math.random() * Math.PI,
+    rZ: Math.random() * Math.PI,
+  });
 
   useFrame((state) => {
-    ref.current.position.set(data.x * width, (data.y += 0.5), z);
-    if (data.y >  height / 1.5) {
-      data.y = - height / 1.5
+    ref.current.rotation.set((data.rX += 0.001), (data.rY += 0.004), (data.rZ += 0.005))
+    ref.current.position.set(data.x * width, (data.y += 0.05), z);
+    if (data.y > height) {
+      data.y = -height;
     }
-  })
+  });
 
   return (
-    <mesh ref={ref}>
-      <boxGeometry />
-      <meshBasicMaterial color="red" />
-    </mesh>
-  )
+    <>
+      <mesh
+        ref={ref}
+        geometry={nodes.banana_high.geometry}
+        material={materials.skin}
+        material-emissive="orange"
+      />
+    </>
+  );
 }
 
-function Banana({...props}) {
-  const { nodes, materials } = useGLTF('/public/banana-v1-transformed.glb')
+export default function App({ count = 100, depth = 100 }) {
   return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.banana_high.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
-      <mesh geometry={nodes.banana_mid.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
-      <mesh geometry={nodes.banana_low.geometry} material={materials.skin} rotation={[-Math.PI / 2, 0, 0]} material-emissive="orange"/>
-    </group>
-  )
-}
-
-export default function App({count = 100}) {
-  return (
-    <Canvas>
-      <ambientLight intensity={0.2} />
-      <spotLight position={[10, 10, 10]} intensity={2}/>
+    <Canvas gl={{alpha: false}} camera={{near: 0.01, far: 110, fov: 50}}>
+      <color attach="background" args={["#ffbf40"]}/>
+      <spotLight position={[10, 10, 10]} intensity={1} />
       <Suspense fallback={null}>
-        <Banana scale={0.5}/>
-        <Environment preset="sunset"/>
+        <Environment preset="sunset" />
+        {Array.from({ length: count }, (_, i) => (
+          <Banana key={i} z={-(i / count) * depth - 10} />
+        ))}
+        <EffectComposer>
+          <DepthOfField target={[0, 0 , depth / 2]} focalLength={0.5} bokehScale={20} height={700} />
+        </EffectComposer>
       </Suspense>
-      {/* {Array.from({length: count}, (_,i) => (<Box key={i} z={-i}/>))} */}
     </Canvas>
-  )
+  );
 }
