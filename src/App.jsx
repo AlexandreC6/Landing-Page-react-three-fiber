@@ -1,6 +1,8 @@
 import * as THREE from 'three'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useRef, useState } from 'react'
+import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber'
+import { useRef, useState, Suspense } from 'react'
+import { useGLTF, Environment } from '@react-three/drei';
+
 
 function Box({ z }) {
 
@@ -29,21 +31,21 @@ function Box({ z }) {
   )
 }
 
-function Test() {
-  const {viewport, camera} = useThree()
-  const {width, height} = viewport.getCurrentViewport(camera, [0, 0, 0])
-
-  return <mesh position={[0, 0, -10]} scale={[viewport.width, viewport.height, 1]}>
-    <planeGeometry />
-    <meshBasicMaterial color="orange"/>
-  </mesh>
+function Banana(props) {
+  const {scene} = useGLTF('/public/banana-v1-transformed.glb');
+  return <primitive  object={scene} {...props} />
 }
 
 export default function App({count = 100}) {
   return (
     <Canvas>
-      {Array.from({length: count}, (_,i) => (<Box key={i} z={-i}/>))}
-      {/* <Test /> */}
+      <ambientLight intensity={0.2} />
+      <spotLight position={[10, 10, 10]} intensity={2}/>
+      <Suspense fallback={null}>
+        <Banana scale={0.5}/>
+        <Environment preset="sunset"/>
+      </Suspense>
+      {/* {Array.from({length: count}, (_,i) => (<Box key={i} z={-i}/>))} */}
     </Canvas>
   )
 }
