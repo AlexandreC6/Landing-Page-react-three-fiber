@@ -1,3 +1,5 @@
+/*  "The tasty slice of salami pizza with cheese" (https://skfb.ly/6UArN) by Constantine is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). */
+
 import * as THREE from "three";
 import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import { useRef, useState, Suspense } from "react";
