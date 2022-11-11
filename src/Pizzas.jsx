@@ -9,7 +9,8 @@ import { EffectComposer, DepthOfField} from "@react-three/postprocessing";
 function Pizzas({ z }) {
   const ref = useRef();
 
-  const { nodes, materials } = useGLTF("/public/pizza-v1-transformed.glb");
+  const { nodes, materials } = useGLTF('/public/jordan-v1-transformed.glb');
+
 
   const { viewport, camera } = useThree();
   const { width, height } = viewport.getCurrentViewport(camera, [0, 0, z]);
@@ -31,29 +32,25 @@ function Pizzas({ z }) {
   });
 
   return (
-    <group ref={ref} position={[-0.36, 0.07, -0.41]} rotation={[0.88, -0.22, 0.05]} scale={[4.61, 0.1, 4.61]}>
-      <group position={[0.07, 3.65, -0.35]}>
-        <mesh geometry={nodes.Object_1.geometry} material={materials.Cheese_Mat} />
-        <mesh geometry={nodes.Object_1_1.geometry} material={materials.Dough_Mat} />
-        <mesh geometry={nodes.Object_1_2.geometry} material={materials.Sauce_Mat} />
-        <mesh geometry={nodes.Object_1_3.geometry} material={materials.Salami_Mat} />
-      </group>
+    <group ref={ref} scale={20}>
+      <mesh geometry={nodes.shoe_shoe_0_1.geometry} material={materials.shoe} />
+      <mesh geometry={nodes.shoe_shoe_0_2.geometry} material={materials.shoelace} />
     </group>
   );
 }
 
-export default function App({ count = 200, depth = 100 }) {
+export default function App({ count = 100, depth = 100 }) {
   return (
     <Canvas gl={{alpha: false}} camera={{near: 0.01, far: 110, fov: 50}}>
-      <color attach="background" args={["#ffbf40"]}/>
+      <color attach="background" args={["#746B65"]}/>
       <spotLight position={[10, 10, 10]} intensity={1} />
       <Suspense fallback={null}>
         <Environment preset="sunset" />
         {Array.from({ length: count }, (_, i) => (
-          <Pizzas key={i} z={-(i / count) * depth - 10} />
+          <Pizzas key={i} z={-(i / count) * depth - 10}/>
         ))}
         <EffectComposer>
-          <DepthOfField target={[0, 0 , depth / 2]} focalLength={0.5} bokehScale={20} height={700} />
+          <DepthOfField target={[0, 0 , depth / 2]} focalLength={0.5} bokehScale={10} height={700} />
         </EffectComposer>
       </Suspense>
     </Canvas>
