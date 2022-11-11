@@ -50,7 +50,6 @@ export default function App({ count = 200, depth = 100 }) {
       <Suspense fallback={null}>
         <Environment preset="sunset" />
         {Array.from({ length: count }, (_, i) => (
-          // <Banana key={i} z={-(i / count) * depth - 10} />
           <Pizzas key={i} z={-(i / count) * depth - 10} />
         ))}
         <EffectComposer>

@@ -1,6 +1,5 @@
 import React from 'react'
 import './style.css'
-import PizzaSvg from './PizzaSvg'
 
 export default function Overlay() {
   return (
@@ -10,7 +9,7 @@ export default function Overlay() {
           <br />
           Page -
         </h1>
-        <p>In React & Threejs</p>
+        <p>In React & React Three Fiber</p>
       </section>
       <div className="bottom-left">
         A runtime deconstrution
@@ -33,11 +32,6 @@ export default function Overlay() {
         Performance and time to load
         <br />
       </div>
-      {/* add svg here */}
-      {/* <div className="image">
-        <img src="../../public/pizza.png" alt="pizza image" />
-      </div> */}
-
     </container>
   )
 }
