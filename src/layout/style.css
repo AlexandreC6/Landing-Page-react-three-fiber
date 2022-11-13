@@ -38,6 +38,17 @@
   max-width: 40%;
 }
 
+.my-name {
+  text-decoration: none;
+  color: white;
+  font-style: italic;
+}
+
+.my-name:hover {
+  color: rgb(227, 227, 227);
+  font-size: 1.1rem;
+}
+
 .bottom-right {
   position: absolute;
   bottom: 5vw;

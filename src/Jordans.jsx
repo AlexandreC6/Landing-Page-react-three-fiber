@@ -6,7 +6,7 @@ import { useRef, useState, Suspense } from "react";
 import { useGLTF, Environment } from "@react-three/drei";
 import { EffectComposer, DepthOfField} from "@react-three/postprocessing";
 
-function Pizzas({ z }) {
+function Jordans({ z }) {
   const ref = useRef();
 
   const { nodes, materials } = useGLTF('/public/jordan-v1-transformed.glb');
@@ -47,7 +47,7 @@ export default function App({ count = 100, depth = 100 }) {
       <Suspense fallback={null}>
         <Environment preset="sunset" />
         {Array.from({ length: count }, (_, i) => (
-          <Pizzas key={i} z={-(i / count) * depth - 10}/>
+          <Jordans key={i} z={-(i / count) * depth - 10}/>
         ))}
         <EffectComposer>
           <DepthOfField target={[0, 0 , depth / 2]} focalLength={0.5} bokehScale={10} height={700} />

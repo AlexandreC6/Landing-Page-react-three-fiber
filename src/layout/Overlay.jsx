@@ -10,7 +10,7 @@ export default function Overlay() {
         <p>In React & React Three Fiber</p>
       </section>
       <div className="bottom-left">
-        A runtime deconstrution
+        Creating by <a href="https://alex-camilo6.ch" target="_blank" className='my-name'>Alexandre Camilo</a>
       </div>
       <div className="bottom-right">
         Inspiration and ideas
