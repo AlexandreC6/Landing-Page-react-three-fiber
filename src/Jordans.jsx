@@ -9,7 +9,7 @@ import { EffectComposer, DepthOfField} from "@react-three/postprocessing";
 function Jordans({ z }) {
   const ref = useRef();
 
-  const { nodes, materials } = useGLTF('/public/jordan-v1-transformed.glb');
+  const { nodes, materials } = useGLTF('/jordan-v1-transformed.glb');
 
 
   const { viewport, camera } = useThree();
